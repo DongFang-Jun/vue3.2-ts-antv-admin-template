@@ -24,7 +24,7 @@ PC 端技术架构：
 
     开发自创分支，向test/master merge即可；保证多人协作尽可能避免冲突
 
-目录结构：
+目录结构（src）：
 
     apis：所有接口接口走一层封装，方便不同页面调用产生多处重复代码
 
@@ -32,9 +32,9 @@ PC 端技术架构：
 
     components：全局自定义组件
 
-    config：全局配置文件 interface.ts为所有接口地址文件，config.ts为全局通用配置参数
+    config：全局配置文件 interface.ts为所有接口地址文件，config.ts为全局通用配置参数,router.config.ts为动态路由映射列表
 
-    mixins：全局混入文件，封装一些常用的函数文件
+    composable：“组合式函数”(Composable), 利用 Vue 的组合式 API 来封装和复用有状态逻辑的函数；mixins的优化版
 
     plugins：全局插件，如自定义指令...
 
@@ -48,4 +48,4 @@ PC 端技术架构：
 
     views：视图文件
 
-![Image text](https://resource.boka.vc/BKRYB/mini/WechatIMG247.png)
+![Image text](https://resource.boka.vc/BKRYB/pc/pc%E7%AB%AF%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95.jpg)

@@ -4,6 +4,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "isolatedModules": false,
+    "types": ["node"],
     "paths": {
       "@/*": ["./src/*"]
     }

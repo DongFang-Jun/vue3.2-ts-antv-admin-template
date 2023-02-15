@@ -1,14 +1,23 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
+import { createApp } from "vue";
+import { createPinia } from "pinia";
+import App from "./App.vue";
+import router from "./router";
+import "ant-design-vue/dist/antd.css";
+import { Button } from "ant-design-vue";
+import plugins from "@/plugins/plugins";
 
-import App from './App.vue'
-import router from './router'
+const app = createApp(App);
 
-import './assets/main.css'
+// pinia store
+app.use(createPinia());
 
-const app = createApp(App)
+// vue-router
+app.use(router);
 
-app.use(createPinia())
-app.use(router)
+// 全局注入自定义指令
+plugins(app);
 
-app.mount('#app')
+// ant-design-vue全局注入，按需引入
+app.use(Button);
+
+app.mount("#app");

@@ -8,6 +8,29 @@ export const constantRouterComponents = {
   Demo: () => import("@/views/Demo/Demo.vue"),
 };
 
+// 当前未做动态路由，等做到的时候再改造
+export const routerList = [
+  {
+    path: "/",
+    name: "Index",
+    redirect: { name: "Demo" },
+    component: constantRouterComponents.DashBoard,
+    meta: {
+      title: "首页",
+    },
+    children: [
+      {
+        path: "/demo",
+        name: "Demo",
+        component: constantRouterComponents.Demo,
+        meta: {
+          title: "测试",
+        },
+      },
+    ],
+  },
+];
+
 // 根级菜单
 export const rootRouter = {
   path: "/",

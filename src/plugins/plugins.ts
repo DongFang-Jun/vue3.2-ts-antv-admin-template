@@ -1,29 +1,61 @@
-import type { VNode, DirectiveBinding } from "vue";
-export default {
-  setup() {},
-  directives: {
-    //按钮权限 v-permissions
-    permission: {
-      bind: function (dom: HTMLElement, data: DirectiveBinding, vNode: VNode) {
-        let permissions = vNode.context.$route.meta.permission; //当前账号拥有的按钮权限列表
-        let values = data.value; //当前按钮所需权限
-        let flag = true;
-        if (values) {
-          values = values.split(",");
-          values.forEach((item: string) => {
-            if (!permissions.includes(item)) {
-              flag = false;
-            }
-          });
+import type { App, DirectiveBinding } from "vue";
+
+interface debounceElementType extends HTMLElement {
+  handler: () => any;
+}
+
+interface throttleElementType extends HTMLElement {
+  handler: () => any;
+  disabled: boolean;
+}
+
+const plugins = (app: App) => {
+  // 防抖
+  app.directive("debounce", {
+    mounted(el: debounceElementType, binding: DirectiveBinding) {
+      if (typeof binding.value !== "function") {
+        throw "callback must be a function";
+      }
+      let timer: NodeJS.Timeout | null = null;
+      el.handler = function () {
+        if (timer) {
+          clearInterval(timer);
         }
-        if (!flag) {
-          try {
-            dom.parentNode && dom.parentNode.removeChild(dom);
-          } catch (error) {
-            dom.style.display = "none";
-          }
-        }
-      },
+        timer = setTimeout(() => {
+          binding.value();
+        }, Number(binding.arg || 500));
+      };
+      el.addEventListener("click", el.handler);
     },
-  },
+    beforeUnmount(el: debounceElementType) {
+      el.removeEventListener("click", el.handler);
+    },
+  });
+  // 节流
+  app.directive("throttle", {
+    mounted(el: throttleElementType, binding: DirectiveBinding) {
+      if (typeof binding.value !== "function") {
+        throw "callback must be a function";
+      }
+      let timer: NodeJS.Timeout | null = null;
+      el.handler = function () {
+        if (timer) {
+          clearTimeout(timer);
+        }
+        if (!el.disabled) {
+          el.disabled = true;
+          binding.value();
+          timer = setTimeout(() => {
+            el.disabled = false;
+          }, Number(binding.arg || 2000));
+        }
+      };
+      el.addEventListener("click", el.handler);
+    },
+    beforeUnmount(el: throttleElementType) {
+      el.removeEventListener("click", el.handler);
+    },
+  });
 };
+
+export default plugins;
