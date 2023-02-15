@@ -10,10 +10,6 @@ PC 端技术架构：
 
     yarn add xxx
 
-七牛云项目地址仓库：
-
-    static/BKRYB/mini（小程序端） static/BKRYB/pc（pc端）
-
 **ts 参数类型校验尽可能定义确定类型，勿大范围使用 any**
 
 分支结构：
